@@ -7,9 +7,12 @@ var builder = WebApplication.CreateBuilder();
 builder.Host.UseOrleans(siloBuilder =>
 {
   siloBuilder.UseLocalhostClustering();
+  siloBuilder.UseDashboard(x => x.HostSelf = true);
 });
 
 var app = builder.Build();
+
+app.Map("/dashboard", x => x.UseOrleansDashboard());
 
 var grainFactory = app.Services.GetRequiredService<IGrainFactory>();
 
